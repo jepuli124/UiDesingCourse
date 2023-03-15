@@ -8,92 +8,275 @@ void main() => runApp(MaterialApp(
       backgroundColor: Colors.lime
     ), //AppBar
     
-    body: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: const <Widget>[
-        MyTextWindow(result: '0'),
-        MyRow(value1: '1', value2: '2',value3: '3', value4: '+'),
-        MyRow(value1: '4', value2: '5',value3: '6', value4: '-'),
-        MyRow(value1: '7', value2: '8',value3: '9', value4: '='),
-      ], //Widgets
-    ),//column
+    body: MyCalculatorBody(),
   ),//Scaffold
 ));//MaterialApp
 
-
-class MyButton extends StatelessWidget {
-  final String value;
-
-  const MyButton({required this.value});
-  
+class MyCalculatorBody extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: ElevatedButton(
-        onPressed: () {},
-        style: ElevatedButton.styleFrom(
-          shape: const CircleBorder(),
-          minimumSize: const Size(100, 100),
-        ),//buttonstyle
-        child: Text(value),
-      ),//FlatButton
-    );//Center
+  MyCalculatorBodyState createState() => MyCalculatorBodyState();
+}
+
+class MyCalculatorBodyState extends State<MyCalculatorBody> {
+  int result = 0;
+  String operation = '';
+  int number1 = 0;
+  int number2 = 0;
+
+  void handleNumberPress(int number) {
+    setState(() {
+      if (number1 == 0) {
+        number1 = number;
+        result = number;
+      } else if (number1 != 0 && number2 != 0) {
+        number1 = number2;
+        number2 = number;
+        result = number;
+      } else {
+        number2 = number;
+        result = number;
+      }
+    });
   }
-} 
 
-class MyRow extends StatelessWidget {
-  final String value1, value2, value3, value4;
+  void handleOperationPress(String newOperation) {
+    setState(() {
+      if (newOperation == '+') {
+        operation = '+';
+      } else if (newOperation == '-'){
+        operation = '-';
+      }
+    });
+  }
 
-  const MyRow({required this.value1,required this.value2,required this.value3,required this.value4});  
+  void handleEqualsPress() {
+    setState(() {
+      if (operation == '+')  {
+        result = performOperation(number1, number2, '+');
+      } if (operation == '-')  {
+        result = performOperation(number1, number2, '+');
+      }
+    });
+  }
+
+  int performOperation(int number1, int number2, String operation) {
+    switch (operation) {
+      case '+':
+        return number1 + number2;
+      case '-':
+        return number1 - number2;
+      default:
+        throw ArgumentError('Invalid operation: $operation');
+    }
+  }
   
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        MyButton(value: value1),
-        MyButton(value: value2),
-        MyButton(value: value3),
-        MySpecialButton(value: value4),
+        Container(
+        alignment: Alignment.centerLeft,
+        width: 300,
+        height: 100,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.black,
+            width: 1.0,
+           ),//border
+        ),//Boxdecoration
+        child: Text(
+          result.toString(),
+          style: const TextStyle(fontSize: 24),
+          ),//text
+        ),//container
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  handleNumberPress(1);
+                },//functionality
+              style: ElevatedButton.styleFrom(
+                shape: const CircleBorder(),
+                minimumSize: const Size(100, 100),
+              ),//buttonstyle
+              child: const Text(
+                 '1',
+                 style: TextStyle(fontSize: 24),
+              ),
+              ),//FlatButton
+             ),//Center
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  handleNumberPress(2);
+                },//functionality
+              style: ElevatedButton.styleFrom(
+                shape: const CircleBorder(),
+                minimumSize: const Size(100, 100),
+              ),//buttonstyle
+              child: const Text(
+                 '2',
+                 style: TextStyle(fontSize: 24),
+              ),
+              ),//FlatButton
+             ),//Center
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  handleNumberPress(3);
+                },//functionality
+              style: ElevatedButton.styleFrom(
+                shape: const CircleBorder(),
+                minimumSize: const Size(100, 100),
+              ),//buttonstyle
+              child: const Text(
+                 '3',
+                 style: TextStyle(fontSize: 24),
+              ),
+              ),//FlatButton
+             ),//Center,
+            ElevatedButton(
+              onPressed: () {
+                handleOperationPress('+');
+              },
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(100, 50),
+              ),//buttonstyle
+              child: const Text(
+                '+',
+                style: TextStyle(fontSize: 24),
+              ),
+              ),//TextButton
+          ], //Widgets
+        ),//Row
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  handleNumberPress(4);
+                },//functionality
+              style: ElevatedButton.styleFrom(
+                shape: const CircleBorder(),
+                minimumSize: const Size(100, 100),
+              ),//buttonstyle
+              child: const Text(
+                 '4',
+                 style: TextStyle(fontSize: 24),
+              ),
+              ),//FlatButton
+             ),//Center
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  handleNumberPress(5);
+                },//functionality
+              style: ElevatedButton.styleFrom(
+                shape: const CircleBorder(),
+                minimumSize: const Size(100, 100),
+              ),//buttonstyle
+              child: const Text(
+                 '5',
+                 style: TextStyle(fontSize: 24),
+              ),
+              ),//FlatButton
+             ),//Center
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  handleNumberPress(6);
+                },//functionality
+              style: ElevatedButton.styleFrom(
+                shape: const CircleBorder(),
+                minimumSize: const Size(100, 100),
+              ),//buttonstyle
+              child: const Text(
+                 '6',
+                 style: TextStyle(fontSize: 24),
+              ),
+              ),//FlatButton
+             ),//Center
+            ElevatedButton(
+              onPressed: () {
+                handleOperationPress('+');
+              },
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(100, 50),
+              ),//buttonstyle
+              child: const Text(
+                '-',
+                style: TextStyle(fontSize: 24),
+              ),
+              ),//TextButton
+          ], //Widgets
+        ),//Row
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  handleNumberPress(7);
+                },//functionality
+              style: ElevatedButton.styleFrom(
+                shape: const CircleBorder(),
+                minimumSize: const Size(100, 100),
+              ),//buttonstyle
+              child: const Text(
+                 '7',
+                 style: TextStyle(fontSize: 24),
+              ),
+              ),//FlatButton
+             ),//Center
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  handleNumberPress(8);
+                },//functionality
+              style: ElevatedButton.styleFrom(
+                shape: const CircleBorder(),
+                minimumSize: const Size(100, 100),
+              ),//buttonstyle
+              child: const Text(
+                 '8',
+                 style: TextStyle(fontSize: 24),
+              ),
+              ),//FlatButton
+             ),//Center
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  handleNumberPress(9);
+                },//functionality
+              style: ElevatedButton.styleFrom(
+                shape: const CircleBorder(),
+                minimumSize: const Size(100, 100),
+              ),//buttonstyle
+              child: const Text(
+                 '9',
+                 style: TextStyle(fontSize: 24),
+              ),
+              ),//FlatButton
+             ),//Center
+            ElevatedButton(
+              onPressed: () {
+                handleEqualsPress();
+              },
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(100, 50),
+              ),//buttonstyle
+              child: const Text(
+                '=',
+                style: TextStyle(fontSize: 24),
+              ),
+              ),//TextButton
+          ], //Widgets
+        ),//Row
       ], //Widgets
-    );//Row
-  }
-} 
-
-class MyTextWindow extends StatelessWidget {  
-  final String result;
-  
-  const MyTextWindow({required this.result});
-  
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 300,
-      height: 100,
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.black,
-          width: 1.0,
-        ),//border
-      ),//Boxdecoration
-      child: Text(result),//text
-    );//container
-  }
-} 
-
-class MySpecialButton extends StatelessWidget {
-  final String value;
-  
-  const MySpecialButton({required this.value});
-  
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {},
-      style: ElevatedButton.styleFrom(
-          minimumSize: const Size(100, 50),
-        ),//buttonstyle
-        child: Text(value),
-    );//TextButton
+    );//column
   }
 } 
