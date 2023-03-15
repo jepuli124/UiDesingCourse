@@ -54,7 +54,7 @@ class MyCalculatorBodyState extends State<MyCalculatorBody> {
       if (operation == '+')  {
         result = performOperation(number1, number2, '+');
       } if (operation == '-')  {
-        result = performOperation(number1, number2, '+');
+        result = performOperation(number1, number2, '-');
       }
     });
   }
@@ -202,7 +202,7 @@ class MyCalculatorBodyState extends State<MyCalculatorBody> {
              ),//Center
             ElevatedButton(
               onPressed: () {
-                handleOperationPress('+');
+                handleOperationPress('-');
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(100, 50),
